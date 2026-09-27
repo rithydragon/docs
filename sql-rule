@@ -1,0 +1,24 @@
+# SQL Rules
+
+### The complete set
+You can think of the rules like this:
+Rule	Parent deleted	Child row
+CASCADE	Yes	Deleted
+RESTRICT	No	Delete blocked
+NO ACTION	No	Constraint violation/block
+SET NULL	Yes	FK becomes NULL
+SET DEFAULT	Yes	FK becomes default
+No rule specified	Usually no	Delete blocked
+ON UPDATE CASCADE	Parent key changes	Child FK changes too
+
+### CASCADE vs SET NULL vs RESTRICT
+This is the most important distinction to understand:
+                 Parent deleted
+                       │
+          ┌────────────┼────────────┐
+          ↓            ↓            ↓
+       CASCADE       SET NULL     RESTRICT
+          │            │            │
+          ↓            ↓            ↓
+   Delete child    Keep child    Keep child
+                  FK = NULL     Delete blocked
