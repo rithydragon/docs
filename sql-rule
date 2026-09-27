@@ -2,6 +2,7 @@
 
 ### The complete set
 You can think of the rules like this:
+```
 | Rule | Parent deleted | What happens to the child row |
 |---|---|---|
 | `CASCADE` | Yes | Child row is automatically deleted |
@@ -11,7 +12,7 @@ You can think of the rules like this:
 | `SET DEFAULT` | Yes | Child's foreign-key column is set to its default value |
 | No rule specified | Usually no | Parent deletion is normally blocked if children exist |
 | `ON UPDATE CASCADE` | Parent key changes | Child's foreign-key value is automatically updated |
-
+```
 
 ### CASCADE vs SET NULL vs RESTRICT
 This is the most important distinction to understand:
