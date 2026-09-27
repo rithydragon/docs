@@ -25,3 +25,64 @@ This is the most important distinction to understand:
           ↓            ↓            ↓
    Delete child    Keep child    Keep child
                   FK = NULL     Delete blocked
+
+
+## SQLAlchemy ORM
+Foreign Key Rules — SQLAlchemy ORM
+
+Use ForeignKey() to define database-level foreign-key rules in SQLAlchemy.
+
+ForeignKey(
+    "USERS.ID",
+    ondelete="CASCADE",
+    onupdate="CASCADE"
+)
+
+Rule	Meaning
+ondelete="CASCADE"	Delete child rows when the parent row is deleted.
+ondelete="RESTRICT"	Prevent deleting the parent while child rows exist.
+ondelete="NO ACTION"	Do not automatically modify child rows; enforce the FK constraint.
+ondelete="SET NULL"	Set the child FK column to NULL when the parent is deleted.
+ondelete="SET DEFAULT"	Set the child FK column to its default value when the parent is deleted.
+onupdate="CASCADE"	Update child FK values when the referenced parent key changes.
+No rule	Use the database's default FK behavior.
+
+Example:
+
+USER_ID: Mapped[int] = mapped_column(
+    Integer,
+    ForeignKey("USERS.ID", ondelete="CASCADE"),
+    nullable=False
+)
+
+## MySQL .sql
+Foreign Key Rules — MySQL
+
+Use FOREIGN KEY with ON DELETE and ON UPDATE to define database-level rules.
+
+FOREIGN KEY (USER_ID)
+    REFERENCES USERS(ID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+Rule	Meaning
+ON DELETE CASCADE	Delete child rows when the parent row is deleted.
+ON DELETE RESTRICT	Prevent deleting the parent while child rows exist.
+ON DELETE NO ACTION	Do not automatically modify child rows; enforce the FK constraint.
+ON DELETE SET NULL	Set the child FK column to NULL when the parent is deleted.
+ON DELETE SET DEFAULT	Set the child FK column to its default value when the parent is deleted.
+ON UPDATE CASCADE	Update child FK values when the referenced parent key changes.
+No rule	Use MySQL's default FK behavior.
+
+Example:
+
+CREATE TABLE ARTIST_PROFILES (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    USER_ID INT NOT NULL,
+
+    CONSTRAINT FK_ARTIST_USER
+        FOREIGN KEY (USER_ID)
+        REFERENCES USERS(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
